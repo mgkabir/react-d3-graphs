@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { select, scaleLinear, max, scaleBand } from "d3";
+import { select, scaleLinear, max, scaleBand, axisLeft, axisBottom } from "d3";
 import { getCountryByPopulation } from "./../data/population";
 
 class BarChart extends Component {
@@ -15,7 +15,7 @@ class BarChart extends Component {
     const svg = select("svg");
     const height = +svg.attr("height");
     const width = +svg.attr("width");
-    const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+    const margin = { top: 20, right: 20, bottom: 20, left: 80 };
     const innerHeight = height - margin.top - margin.bottom;
     const innerWidth = width - margin.left - margin.right;
 
@@ -29,6 +29,8 @@ class BarChart extends Component {
     const g = svg
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    g.append("g").call(axisLeft(yScale));
 
     g.selectAll("rect")
       .data(data)
