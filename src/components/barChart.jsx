@@ -8,31 +8,37 @@ class BarChart extends Component {
   };
 
   componentDidMount() {
+    this.display(this.state.data);
+  }
+
+  display = (data) => {
     const svg = select("svg");
     const height = +svg.attr("height");
     const width = +svg.attr("width");
+    const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+    const innerHeight = height - margin.top - margin.bottom;
+    const innerWidth = width - margin.left - margin.right;
 
-    const display = (data) => {
-      const xValue = (d) => d.population;
-      const yValue = (d) => d.country;
-      const xScale = scaleLinear()
-        .domain([0, max(data, xValue)])
-        .range([0, width]);
+    const xValue = (d) => d.population;
+    const yValue = (d) => d.country;
+    const xScale = scaleLinear()
+      .domain([0, max(data, xValue)])
+      .range([0, innerWidth]);
+    const yScale = scaleBand().domain(data.map(yValue)).range([0, innerHeight]);
 
-      const yScale = scaleBand().domain(data.map(yValue)).range([0, height]);
+    const g = svg
+      .append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
 
-      svg
-        .selectAll("rect")
-        .data(data)
-        .enter()
-        .append("rect")
-        .attr("y", (d) => yScale(yValue(d)))
-        .attr("width", (d) => xScale(xValue(d)))
-        .attr("height", yScale.bandwidth());
-    };
+    g.selectAll("rect")
+      .data(data)
+      .enter()
+      .append("rect")
+      .attr("y", (d) => yScale(yValue(d)))
+      .attr("width", (d) => xScale(xValue(d)))
+      .attr("height", yScale.bandwidth());
+  };
 
-    display(this.state.data);
-  }
   render() {
     return (
       <React.Fragment>
