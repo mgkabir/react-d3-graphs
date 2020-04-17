@@ -1,25 +1,38 @@
 import React, { Component } from "react";
-import * as d3 from "d3";
+import { select, scaleLinear, max, scaleBand } from "d3";
+import { getCountryByPopulation } from "./../data/population";
 
 class BarChart extends Component {
-  state = {};
+  state = {
+    data: getCountryByPopulation(),
+  };
 
   componentDidMount() {
-    const svg = d3.select("svg");
-    const height = +svg.attr("height"); // + sign converts string to number
+    const svg = select("svg");
+    const height = +svg.attr("height");
     const width = +svg.attr("width");
 
-    const g = svg
-      .append("g")
-      .attr("transform", `translate(${width / 2},${height / 2})`);
+    const display = (data) => {
+      const xValue = (d) => d.population;
+      const yValue = (d) => d.country;
+      const xScale = scaleLinear()
+        .domain([0, max(data, xValue)])
+        .range([0, width]);
 
-    const circle = g
-      .append("circle")
-      .attr("r", height / 2 - 50)
-      .attr("fill", "yellow")
-      .attr("stroke", "black");
+      const yScale = scaleBand().domain(data.map(yValue)).range([0, height]);
+
+      svg
+        .selectAll("rect")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("y", (d) => yScale(yValue(d)))
+        .attr("width", (d) => xScale(xValue(d)))
+        .attr("height", yScale.bandwidth());
+    };
+
+    display(this.state.data);
   }
-
   render() {
     return (
       <React.Fragment>
