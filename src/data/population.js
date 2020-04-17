@@ -9,19 +9,19 @@ const data = [
   },
   {
     country: "Brazil",
-    population: 13150367,
+    population: 7315036,
   },
   {
     country: "Bangladesh",
-    population: 5215087,
-  },
-  {
-    country: "Indonesia",
-    population: 1015036,
+    population: 4415087,
   },
   {
     country: "Malaysia",
     population: 3015036,
+  },
+  {
+    country: "Indonesia",
+    population: 1015036,
   },
 ];
 

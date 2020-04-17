@@ -15,7 +15,7 @@ class BarChart extends Component {
     const svg = select("svg");
     const height = +svg.attr("height");
     const width = +svg.attr("width");
-    const margin = { top: 20, right: 20, bottom: 20, left: 80 };
+    const margin = { top: 20, right: 20, bottom: 30, left: 70 };
     const innerHeight = height - margin.top - margin.bottom;
     const innerWidth = width - margin.left - margin.right;
 
@@ -31,6 +31,9 @@ class BarChart extends Component {
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
     g.append("g").call(axisLeft(yScale));
+    g.append("g")
+      .call(axisBottom(xScale))
+      .attr("transform", `translate(0,${innerHeight})`);
 
     g.selectAll("rect")
       .data(data)
