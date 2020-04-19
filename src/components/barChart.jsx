@@ -24,7 +24,10 @@ class BarChart extends Component {
     const xScale = scaleLinear()
       .domain([0, max(data, xValue)])
       .range([0, innerWidth]);
-    const yScale = scaleBand().domain(data.map(yValue)).range([0, innerHeight]);
+    const yScale = scaleBand()
+      .domain(data.map(yValue))
+      .range([0, innerHeight])
+      .padding(0.1);
 
     const g = svg
       .append("g")
@@ -47,7 +50,7 @@ class BarChart extends Component {
   render() {
     return (
       <React.Fragment>
-        <svg style={{ background: "#83ad7f" }} width="600" height="400"></svg>
+        <svg width="600" height="400"></svg>
       </React.Fragment>
     );
   }
