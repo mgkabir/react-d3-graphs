@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import BarChart from "./components/barChart";
 import VictoryBarChart from "./components/victoryBarChart";
 import Home from "./components/home";
-import NavBar from "./components/navbar";
+import NavBar from "./components/navBar";
 
 class App extends Component {
   state = {};
