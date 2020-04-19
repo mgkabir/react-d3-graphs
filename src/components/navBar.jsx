@@ -21,6 +21,11 @@ class NavBar extends Component {
                 Bar Victory
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/line-victory">
+                Line Victory
+              </NavLink>
+            </li>
           </ul>
         </div>
       </nav>
