@@ -1,25 +1,25 @@
 import React, { Component } from "react";
 import { VictoryChart, VictoryTheme, VictoryLine } from "victory";
+import axios from "axios";
 
 class VictoryLineChart extends Component {
   state = {
-    data: [],
+    lineData: [],
   };
-  componentDidMount() {
-    const data = [
-      { x: 1, y: 2 },
-      { x: 2, y: 3 },
-      { x: 3, y: 5 },
-      { x: 4, y: 4 },
-      { x: 5, y: 7 },
-    ];
-
-    this.setState({ data });
+  async componentDidMount() {
+    const { data } = await axios.get(
+      "https://api.covid19api.com/dayone/country/malawi/status/confirmed/live"
+    );
+    const dataArray = [...data];
+    const newArray = dataArray.map((d) => {
+      return { x: d.Date, y: d.Cases };
+    });
+    this.setState({ lineData: newArray });
   }
   render() {
     return (
       <VictoryChart theme={VictoryTheme.material}>
-        <VictoryLine data={this.state.data}></VictoryLine>
+        <VictoryLine data={this.state.lineData}></VictoryLine>
       </VictoryChart>
     );
   }
