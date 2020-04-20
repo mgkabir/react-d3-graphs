@@ -26,9 +26,6 @@ class VictoryCustomLineChart extends Component {
     return (
       <div>
         <svg style={styles.parent} viewBox="0 0 450 350">
-          {/* Create stylistic elements */}
-          <rect x="0" y="0" width="10" height="30" fill="#f01616" />
-          <rect x="420" y="10" width="20" height="20" fill="#458ca8" />
           {/* Define labels */}
           <VictoryLabel
             x={25}
@@ -36,7 +33,7 @@ class VictoryCustomLineChart extends Component {
             style={styles.title}
             text="Covid-19 Line Graph"
           />
-          <VictoryLabel x={430} y={20} style={styles.labelNumber} text="1" />
+
           <g transform={"translate(0, 40)"}>
             {/* Add shared independent axis */}
             <VictoryAxis
