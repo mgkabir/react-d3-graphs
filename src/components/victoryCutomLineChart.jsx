@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { VictoryLabel, VictoryAxis, VictoryLine } from "victory";
 import axios from "axios";
 
-const apiEndpoint =
-  "https://api.covid19api.com/dayone/country/bangladesh/status/confirmed/live";
+const country = "bangladesh";
+const apiEndpoint = `https://api.covid19api.com/dayone/country/${country}/status/confirmed/live`;
 
 class VictoryCustomLineChart extends Component {
   state = {
@@ -19,19 +19,26 @@ class VictoryCustomLineChart extends Component {
     });
 
     const ticks = dataArray.map((d) => {
-      const aDate = new Date(d.Date);
-      return new Date(
-        aDate.getUTCFullYear(),
-        aDate.getUTCMonth(),
-        aDate.getUTCDate()
-      );
+      return new Date(d.Date);
     });
     this.setState({ dataSet: newArray });
     this.setState({ tickValues: ticks });
   }
 
+  getMaxYValue() {
+    const length = this.state.dataSet.length;
+    const lastObj = this.state.dataSet[length - 1];
+    if (lastObj) {
+      const { y } = lastObj;
+      console.log(`${length} - Obj - ${y}`);
+      return y;
+    }
+    return 0;
+  }
+
   render() {
     const styles = this.getStyles();
+    const maxY = this.getMaxYValue();
 
     return (
       <div>
@@ -41,7 +48,7 @@ class VictoryCustomLineChart extends Component {
             x={25}
             y={24}
             style={styles.title}
-            text="Covid-19 Line Graph"
+            text={`Covid-19 total case : ${country}`}
           />
 
           <g transform={"translate(0, 40)"}>
@@ -65,8 +72,8 @@ class VictoryCustomLineChart extends Component {
             */}
             <VictoryAxis
               dependentAxis
-              domain={[0, 2800]}
-              offsetX={50}
+              domain={[0, maxY]}
+              offsetX={65}
               orientation="left"
               standalone={false}
               style={styles.axisOne}
@@ -76,8 +83,13 @@ class VictoryCustomLineChart extends Component {
             <VictoryLine
               data={this.state.dataSet}
               domain={{
-                x: [new Date(2020, 2, 5), new Date(2020, 3, 25)],
-                y: [0, 2800],
+                x: [
+                  new Date(this.state.tickValues[0]),
+                  new Date(
+                    this.state.tickValues[this.state.tickValues.length - 1]
+                  ),
+                ],
+                y: [0, maxY],
               }}
               interpolation="monotoneX"
               scale={{ x: "time", y: "linear" }}
