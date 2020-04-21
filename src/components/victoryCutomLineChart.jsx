@@ -11,6 +11,10 @@ class VictoryCustomLineChart extends Component {
     tickValues: [],
   };
 
+  capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
   async componentDidMount() {
     const { data: dataArray } = await axios.get(apiEndpoint);
 
@@ -21,8 +25,8 @@ class VictoryCustomLineChart extends Component {
     const ticks = dataArray.map((d) => {
       return new Date(d.Date);
     });
-    this.setState({ dataSet: newArray });
-    this.setState({ tickValues: ticks });
+
+    this.setState({ dataSet: newArray, tickValues: ticks });
   }
 
   getMaxYValue() {
@@ -30,8 +34,7 @@ class VictoryCustomLineChart extends Component {
     const lastObj = this.state.dataSet[length - 1];
     if (lastObj) {
       const { y } = lastObj;
-      console.log(`${length} - Obj - ${y}`);
-      return y;
+      return parseInt(y);
     }
     return 0;
   }
@@ -39,7 +42,6 @@ class VictoryCustomLineChart extends Component {
   render() {
     const styles = this.getStyles();
     const maxY = this.getMaxYValue();
-
     return (
       <div>
         <svg style={styles.parent} viewBox="0 0 450 350">
@@ -48,9 +50,10 @@ class VictoryCustomLineChart extends Component {
             x={25}
             y={24}
             style={styles.title}
-            text={`Covid-19 total case : ${country}`}
+            text={`Covid-19 total case : ${this.capitalizeFirstLetter(
+              country
+            )}`}
           />
-
           <g transform={"translate(0, 40)"}>
             {/* Add shared independent axis */}
             <VictoryAxis
@@ -72,8 +75,9 @@ class VictoryCustomLineChart extends Component {
             */}
             <VictoryAxis
               dependentAxis
-              domain={[0, maxY]}
-              offsetX={65}
+              minDomain={{ y: 0 }}
+              maxDomain={{ y: maxY }}
+              offsetX={60}
               orientation="left"
               standalone={false}
               style={styles.axisOne}
