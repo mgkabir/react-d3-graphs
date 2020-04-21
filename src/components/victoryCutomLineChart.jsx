@@ -3,25 +3,31 @@ import { VictoryLabel, VictoryAxis, VictoryLine } from "victory";
 import Select from "react-select";
 import axios from "axios";
 
-const country = "bangladesh";
-const apiEndpoint = `https://api.covid19api.com/dayone/country/${country}/status/confirmed/live`;
 const options = [
   { value: "bangladesh", label: "Bangladesh" },
   { value: "india", label: "India" },
   { value: "kenya", label: "Kenya" },
+  { value: "malaysia", label: "Malaysia" },
+  { value: "pakistan", label: "Pakistan" },
+  { value: "malawi", label: "Malawi" },
+  { value: "spain", label: "Spain" },
+  { value: "italy", label: "Italy" },
 ];
 
 class VictoryCustomLineChart extends Component {
   state = {
     dataSet: [],
     tickValues: [],
-    selectedOption: null,
+    selectedOption: { value: "bangladesh", label: "Bangladesh" },
   };
 
   capitalizeFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
+  getApiEndPoint(country = "bangladesh") {
+    return `https://api.covid19api.com/dayone/country/${country}/status/confirmed/live`;
+  }
   handleChange = (selectedOption) => {
     this.setState({ selectedOption }, () =>
       console.log(`Option selected:`, this.state.selectedOption)
@@ -31,10 +37,14 @@ class VictoryCustomLineChart extends Component {
   componentDidMount() {
     this.updateState();
   }
-  componentDidUpdate(prevProps, prevState) {}
+  componentDidUpdate(prevProps, prevState) {
+    this.updateState();
+  }
 
   async updateState() {
-    const { data: dataArray } = await axios.get(apiEndpoint);
+    const { data: dataArray } = await axios.get(
+      this.getApiEndPoint(this.state.selectedOption.value)
+    );
 
     const newArray = dataArray.map((d) => {
       return { x: new Date(d.Date), y: d.Cases };
@@ -77,7 +87,7 @@ class VictoryCustomLineChart extends Component {
             y={24}
             style={styles.title}
             text={`Covid-19 total case : ${this.capitalizeFirstLetter(
-              country
+              this.state.selectedOption.value
             )}`}
           />
           <g transform={"translate(0, 40)"}>
@@ -89,8 +99,8 @@ class VictoryCustomLineChart extends Component {
               tickValues={this.state.tickValues}
               tickFormat={(x) => {
                 let xAxisStr = "";
-                if (x.getUTCDate() % 5 === 0) {
-                  xAxisStr = `${x.getUTCMonth() + 1}-${x.getUTCDate()}`;
+                if (x.getUTCDate() % 10 === 0) {
+                  xAxisStr = `${x.getUTCDate()}/${x.getUTCMonth() + 1}`;
                 }
                 return xAxisStr;
               }}
@@ -142,7 +152,7 @@ class VictoryCustomLineChart extends Component {
         display: "inline",
         padding: 0,
         fontFamily: "'Fira Sans', sans-serif",
-        maxWidth: "100%",
+        maxWidth: "70%",
         height: "auto",
       },
       title: {
