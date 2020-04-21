@@ -145,23 +145,24 @@ class VictoryCustomLineChart extends Component {
 
   getStyles() {
     const BLUE_COLOR = "#00a3de";
-
+    const STEEL_BLUE = "#10a9c4";
     return {
       parent: {
         background: "#ccdee8",
         boxSizing: "border-box",
-        display: "inline",
+        display: "block",
         padding: 0,
         fontFamily: "'Fira Sans', sans-serif",
         maxWidth: "80%",
         height: "auto",
+        margin: "auto",
       },
       title: {
         textAnchor: "start",
         verticalAnchor: "end",
-        fill: "#000000",
+        fill: "#0d91d4",
         fontFamily: "inherit",
-        fontSize: "18px",
+        fontSize: "16px",
         fontWeight: "bold",
       },
       labelNumber: {
@@ -173,34 +174,34 @@ class VictoryCustomLineChart extends Component {
 
       // INDEPENDENT AXIS
       axisYears: {
-        axis: { stroke: "black", strokeWidth: 1 },
+        axis: { stroke: BLUE_COLOR, strokeWidth: 2 },
         ticks: {
           size: ({ tick }) => {
             const tickSize = tick.getFullYear() % 5 === 0 ? 10 : 5;
             return tickSize;
           },
-          stroke: "black",
-          strokeWidth: 1,
+          stroke: BLUE_COLOR,
+          strokeWidth: 0.25,
         },
         tickLabels: {
-          fill: "black",
+          fill: BLUE_COLOR,
           fontFamily: "inherit",
-          fontSize: 12,
+          fontSize: 10,
         },
       },
 
       // DATA SET ONE
       axisOne: {
         grid: {
-          stroke: ({ tick }) => (tick === -10 ? "transparent" : "#ffffff"),
-          strokeWidth: 2,
+          stroke: "#ffffff",
+          strokeWidth: 1,
         },
-        axis: { stroke: BLUE_COLOR, strokeWidth: 0 },
-        ticks: { strokeWidth: 0 },
+        axis: { stroke: BLUE_COLOR, strokeWidth: 1 },
+        ticks: { strokeWidth: 1 },
         tickLabels: {
           fill: BLUE_COLOR,
           fontFamily: "inherit",
-          fontSize: 16,
+          fontSize: 12,
         },
       },
       labelOne: {
@@ -210,7 +211,7 @@ class VictoryCustomLineChart extends Component {
         fontStyle: "italic",
       },
       lineOne: {
-        data: { stroke: BLUE_COLOR, strokeWidth: 4.5 },
+        data: { stroke: STEEL_BLUE, strokeWidth: 4.5 },
       },
       axisOneCustomLabel: {
         fill: BLUE_COLOR,
