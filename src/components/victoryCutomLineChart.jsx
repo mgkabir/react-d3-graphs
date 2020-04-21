@@ -29,9 +29,7 @@ class VictoryCustomLineChart extends Component {
     return `https://api.covid19api.com/dayone/country/${country}/status/confirmed/live`;
   }
   handleChange = (selectedOption) => {
-    this.setState({ selectedOption }, () =>
-      console.log(`Option selected:`, this.state.selectedOption)
-    );
+    this.setState({ selectedOption });
   };
 
   componentDidMount() {
@@ -113,7 +111,10 @@ class VictoryCustomLineChart extends Component {
               dependentAxis
               minDomain={{ y: 0 }}
               maxDomain={{ y: maxY }}
-              offsetX={60}
+              offsetX={50}
+              tickFormat={(y) => {
+                return y >= 10000 ? `${y / 1000}k` : y;
+              }}
               orientation="left"
               standalone={false}
               style={styles.axisOne}
@@ -152,7 +153,7 @@ class VictoryCustomLineChart extends Component {
         display: "inline",
         padding: 0,
         fontFamily: "'Fira Sans', sans-serif",
-        maxWidth: "70%",
+        maxWidth: "80%",
         height: "auto",
       },
       title: {
