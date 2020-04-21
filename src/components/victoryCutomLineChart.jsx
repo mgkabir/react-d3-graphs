@@ -1,21 +1,39 @@
 import React, { Component } from "react";
 import { VictoryLabel, VictoryAxis, VictoryLine } from "victory";
+import Select from "react-select";
 import axios from "axios";
 
 const country = "bangladesh";
 const apiEndpoint = `https://api.covid19api.com/dayone/country/${country}/status/confirmed/live`;
+const options = [
+  { value: "bangladesh", label: "Bangladesh" },
+  { value: "india", label: "India" },
+  { value: "kenya", label: "Kenya" },
+];
 
 class VictoryCustomLineChart extends Component {
   state = {
     dataSet: [],
     tickValues: [],
+    selectedOption: null,
   };
 
   capitalizeFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
-  async componentDidMount() {
+  handleChange = (selectedOption) => {
+    this.setState({ selectedOption }, () =>
+      console.log(`Option selected:`, this.state.selectedOption)
+    );
+  };
+
+  componentDidMount() {
+    this.updateState();
+  }
+  componentDidUpdate(prevProps, prevState) {}
+
+  async updateState() {
     const { data: dataArray } = await axios.get(apiEndpoint);
 
     const newArray = dataArray.map((d) => {
@@ -42,8 +60,16 @@ class VictoryCustomLineChart extends Component {
   render() {
     const styles = this.getStyles();
     const maxY = this.getMaxYValue();
+    const { selectedOption } = this.state;
     return (
       <div>
+        <div>
+          <Select
+            value={selectedOption}
+            onChange={this.handleChange}
+            options={options}
+          />
+        </div>
         <svg style={styles.parent} viewBox="0 0 450 350">
           {/* Define labels */}
           <VictoryLabel
@@ -116,7 +142,7 @@ class VictoryCustomLineChart extends Component {
         display: "inline",
         padding: 0,
         fontFamily: "'Fira Sans', sans-serif",
-        maxWidth: "50%",
+        maxWidth: "100%",
         height: "auto",
       },
       title: {
