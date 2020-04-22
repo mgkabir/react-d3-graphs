@@ -36,7 +36,12 @@ class VictoryCustomLineChart extends Component {
     this.updateState();
   }
   componentDidUpdate(prevProps, prevState) {
-    this.updateState();
+    if (prevState.selectedOption.value !== this.state.selectedOption.value) {
+      console.log(
+        `componentDidUpdate called : ${this.state.selectedOption.value}`
+      );
+      this.updateState();
+    }
   }
 
   async updateState() {
@@ -79,7 +84,7 @@ class VictoryCustomLineChart extends Component {
           />
         </div>
         <svg style={styles.parent} viewBox="0 0 450 350">
-          {/* Define labels */}
+          {/* Define labels*/}
           <VictoryLabel
             x={25}
             y={24}
@@ -211,7 +216,7 @@ class VictoryCustomLineChart extends Component {
         fontStyle: "italic",
       },
       lineOne: {
-        data: { stroke: STEEL_BLUE, strokeWidth: 4.5 },
+        data: { stroke: STEEL_BLUE, strokeWidth: 2.5 },
       },
       axisOneCustomLabel: {
         fill: BLUE_COLOR,
