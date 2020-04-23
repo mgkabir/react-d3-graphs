@@ -12,7 +12,7 @@ class VictoryLineChart extends Component {
     const { data } = await axios.get(apiEndpoint);
     const dataArray = [...data];
     const newArray = dataArray.map((d) => {
-      return { x: d.Date, y: d.Cases };
+      return { x: new Date(d.Date), y: d.Cases };
     });
     this.setState({ lineData: newArray });
   }
@@ -20,9 +20,9 @@ class VictoryLineChart extends Component {
   render() {
     return (
       <div class="w-75">
-        <VictoryChart theme={VictoryTheme.material}>
-          <VictoryAxis tickValues={[]} tickFormat={(x) => x} />
-          <VictoryAxis dependentAxis tickFormat={(x) => `$${x / 1000}K`} />
+        <VictoryChart theme={VictoryTheme.material} scale={{ x: "time" }}>
+          <VictoryAxis />
+          <VictoryAxis dependentAxis />
           <VictoryLine data={this.state.lineData}></VictoryLine>
         </VictoryChart>
       </div>
