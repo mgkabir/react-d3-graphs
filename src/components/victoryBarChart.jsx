@@ -1,38 +1,50 @@
 import React, { Component } from "react";
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from "victory";
+import {
+  VictoryBar,
+  VictoryChart,
+  VictoryAxis,
+  VictoryTheme,
+  VictoryStack,
+} from "victory";
 
 class VictoryBarChart extends Component {
   state = {
-    data: [],
+    dataSetOne: [],
+    dataSetTwo: [],
   };
 
   componentDidMount() {
-    const retrievedData = [
-      { quarter: 1, earnings: 2100 },
-      { quarter: 2, earnings: 3500 },
-      { quarter: 3, earnings: 4250 },
-      { quarter: 4, earnings: 2000 },
+    const dataSetOne = [
+      { quarter: new Date(2000, 2, 2), earnings: 210 },
+      { quarter: new Date(2000, 3, 3), earnings: 350 },
+      { quarter: new Date(2000, 5, 4), earnings: 420 },
+      { quarter: new Date(2000, 6, 5), earnings: 200 },
+    ];
+    const dataSetTwo = [
+      { quarter: new Date(2000, 2, 2), earnings: 100 },
+      { quarter: new Date(2000, 3, 3), earnings: 500 },
+      { quarter: new Date(2000, 5, 4), earnings: 250 },
+      { quarter: new Date(2000, 6, 5), earnings: 600 },
     ];
 
-    this.setState({ data: retrievedData });
+    this.setState({ dataSetOne, dataSetTwo });
   }
 
   render() {
     return (
       <div class="w-75">
-        <VictoryChart theme={VictoryTheme.material} domainPadding={20}>
-          <VictoryAxis
-            // tickValues specifies both the number of ticks and where
-            // they are placed on the axis
-            tickValues={[1, 2, 3, 4]}
-            tickFormat={["Quarter 1", "Quarter 2", "Quarter 3", "Quarter 4"]}
-          />
-          <VictoryAxis
-            dependentAxis
-            // tickFormat specifies how ticks should be displayed
-            tickFormat={(x) => `$${x / 1000}k`}
-          />
-          <VictoryBar data={this.state.data} x="quarter" y="earnings" />
+        <VictoryChart
+          theme={VictoryTheme.material}
+          domainPadding={20}
+          scale={{ x: "time" }}
+        >
+          <VictoryAxis />
+          <VictoryAxis dependentAxis />
+
+          <VictoryStack colorScale={["orange", "steelblue"]}>
+            <VictoryBar data={this.state.dataSetOne} x="quarter" y="earnings" />
+            <VictoryBar data={this.state.dataSetTwo} x="quarter" y="earnings" />
+          </VictoryStack>
         </VictoryChart>
       </div>
     );
