@@ -19,11 +19,13 @@ class VictoryLineChart extends Component {
 
   render() {
     return (
-      <VictoryChart theme={VictoryTheme.material}>
-        <VictoryAxis tickValues={[]} tickFormat={(x) => x} />
-        <VictoryAxis dependentAxis tickFormat={(x) => `$${x / 1000}K`} />
-        <VictoryLine data={this.state.lineData}></VictoryLine>
-      </VictoryChart>
+      <div class="w-75">
+        <VictoryChart theme={VictoryTheme.material}>
+          <VictoryAxis tickValues={[]} tickFormat={(x) => x} />
+          <VictoryAxis dependentAxis tickFormat={(x) => `$${x / 1000}K`} />
+          <VictoryLine data={this.state.lineData}></VictoryLine>
+        </VictoryChart>
+      </div>
     );
   }
 }

@@ -158,7 +158,7 @@ class VictoryCustomLineChart extends Component {
         display: "block",
         padding: 0,
         fontFamily: "'Fira Sans', sans-serif",
-        maxWidth: "80%",
+        maxWidth: "75%",
         height: "auto",
         margin: "auto",
       },
