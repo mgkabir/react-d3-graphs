@@ -9,7 +9,7 @@ import {
 import axios from "axios";
 
 const apiEndPoint =
-  "https://api.covid19api.com/country/bangladesh?from=2020-04-05T00:00:00Z&to=2020-04-23T00:00:00Z";
+  "https://api.covid19api.com/country/bangladesh?from=2020-03-05T00:00:00Z";
 
 class VictoryBarChart extends Component {
   state = {
@@ -34,7 +34,7 @@ class VictoryBarChart extends Component {
         Date: evtDate,
       } = element;
 
-      if (prevConf !== 0) {
+      if (prevReco !== 0) {
         newConfirmed.push({
           day: new Date(evtDate),
           confirmed: accConfirmed - prevConf,
@@ -68,10 +68,10 @@ class VictoryBarChart extends Component {
           <VictoryAxis />
           <VictoryAxis dependentAxis />
 
-          <VictoryStack colorScale={["orange", "steelblue", "red"]}>
-            <VictoryBar data={this.state.newConfirmed} x="day" y="confirmed" />
+          <VictoryStack colorScale={["steelblue", "red", "orange"]}>
             <VictoryBar data={this.state.newRecovered} x="day" y="recovered" />
             <VictoryBar data={this.state.newDeaths} x="day" y="deaths" />
+            {/* <VictoryBar data={this.state.newConfirmed} x="day" y="confirmed" /> */}
           </VictoryStack>
         </VictoryChart>
       </div>
