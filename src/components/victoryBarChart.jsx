@@ -61,6 +61,8 @@ class VictoryBarChart extends Component {
     return (
       <div className="w-75">
         <VictoryChart
+          width="960"
+          height="400"
           theme={VictoryTheme.material}
           domainPadding={20}
           scale={{ x: "time" }}
