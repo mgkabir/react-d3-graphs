@@ -21,29 +21,36 @@ class Home extends Component {
   display = (data, color) => {
     console.log(`Data : ${JSON.stringify(data)} Color : ${color}`);
     const xScale = scaleLinear()
-      .domain([1, 5]) // Data space
-      .range([100, 200]); // Pixel space
+      .domain([1, 10]) // Data space
+      .range([100, 400]); // Pixel space
 
     const yScale = scaleLinear()
-      .domain([1, 5]) // Data space
-      .range([1, 200]); // Pixel space
-    const wScale = scaleLinear()
-      .domain([1, 5]) // Data space
+      .domain([1, 10]) // Data space
+      .range([100, 500]); // Pixel space
+    const rScale = scaleLinear()
+      .domain([1, 10]) // Data space
       .range([10, 50]); // Pixel space
 
-    const rects = select("svg").selectAll("rect").data(data);
+    // Data bind
+    const circles = select("svg").selectAll("circle").data(data);
 
-    rects
+    // Enter
+    circles
       .enter()
-      .append("rect")
-      .attr("x", (d) => xScale(d.x))
-      .attr("y", (d) => yScale(d.y))
-      .attr("width", (d) => wScale(d.r))
-      .attr("height", 50);
+      .append("circle")
+      .attr("cx", (d) => xScale(d.x))
+      .attr("cy", (d) => yScale(d.y))
+      .attr("r", (d) => rScale(d.r))
+      .attr("fill", color);
 
-    rects.attr("fill", color);
+    // Update
+    circles
+      .attr("cx", (d) => xScale(d.x))
+      .attr("cy", (d) => yScale(d.y))
+      .attr("fill", color);
 
-    rects.exit().remove();
+    // Exit
+    circles.exit().remove();
   };
 
   render() {
