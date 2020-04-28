@@ -16,6 +16,9 @@ rect {
   fill: steelblue;
 }
 
+circle {
+  fill: steelblue;
+}
 .svgText {
   font-size: 1.5em;
   font-style: oblique;
