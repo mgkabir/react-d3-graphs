@@ -6,7 +6,7 @@ class Home extends Component {
   render() {
     return (
       <React.Fragment>
-        <D3DatJoin />
+        {/* <D3DatJoin /> */}
         <ScatterPlot />
       </React.Fragment>
     );

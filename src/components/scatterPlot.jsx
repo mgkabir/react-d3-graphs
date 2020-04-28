@@ -9,10 +9,10 @@ class ScatterPlot extends Component {
 
   async componentDidMount() {
     const response = await d3.json(irisEndPoint);
-    const minSepalLength = d3.min(response, (d) => d.sepalLength);
-    const maxSepalLength = d3.max(response, (d) => d.sepalLength);
+    const extent = d3.extent(response, (d) => d.sepalLength);
+    //const maxSepalLength = d3.max(response, (d) => d.sepalLength);
 
-    console.log(`Min ${minSepalLength} Max ${maxSepalLength}`);
+    console.log(`Extent ${extent}`);
   }
   render() {
     return <h4>Scaller Plot with Iris Data</h4>;
