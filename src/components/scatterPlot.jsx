@@ -8,23 +8,27 @@ class ScatterPlot extends Component {
   state = {};
 
   async componentDidMount() {
-    const circleRadius = 5;
-    const outerWidth = 600;
-    const outerHeight = 400;
+    const svg = d3.select("svg");
+    const circleRadius = 6;
+    const height = +svg.attr("height");
+    const width = +svg.attr("width");
+    const margin = { top: 20, right: 20, bottom: 20, left: 30 };
+    const innerHeight = height - margin.top - margin.bottom;
+    const innerWidth = width - margin.left - margin.right;
+
     const data = await d3.json(irisEndPoint); // fetch data
 
     const xScaleExtent = d3.extent(data, (d) => d.sepalLength);
     const yScaleExtent = d3.extent(data, (d) => d.petalLength);
 
-    const xScale = d3.scaleLinear().domain(xScaleExtent).range([0, outerWidth]);
-    const yScale = d3
-      .scaleLinear()
-      .domain(yScaleExtent)
-      .range([outerHeight, 0]);
+    const xScale = d3.scaleLinear().domain(xScaleExtent).range([0, innerWidth]);
+    const yScale = d3.scaleLinear().domain(yScaleExtent).range([height, 0]);
 
-    const svg = d3.select("svg");
+    const g = svg
+      .append("g")
+      .attr("transform", `translate(${margin.left},${-margin.bottom})`);
     // Data bind
-    const circles = svg.selectAll("circle").data(data);
+    const circles = g.selectAll("circle").data(data);
     // Enter
     circles
       .enter()
@@ -39,24 +43,33 @@ class ScatterPlot extends Component {
     // Exit
     circles.exit().remove();
 
-    this.includeXAxis(svg, xScale);
-    this.includeYAxis(svg, yScale);
+    this.includeXAxis(svg, xScale, innerHeight, margin);
+    this.includeYAxis(svg, yScale, margin);
   }
 
-  includeXAxis(svg, xScale) {
+  includeXAxis(svg, xScale, innerHeight, margin) {
     const xAxis = d3.axisBottom().scale(xScale);
-    svg.append("g").attr("transform", "translate(30,370)").call(xAxis);
+    svg
+      .append("g")
+      .attr(
+        "transform",
+        `translate(${margin.left},${innerHeight + margin.top})`
+      )
+      .call(xAxis);
   }
 
-  includeYAxis(svg, yScale) {
+  includeYAxis(svg, yScale, margin) {
     const yAxis = d3.axisLeft().scale(yScale);
-    svg.append("g").attr("transform", "translate(30, -30)").call(yAxis);
+    svg
+      .append("g")
+      .attr("transform", `translate(${margin.left}, ${-margin.bottom})`)
+      .call(yAxis);
   }
 
   render() {
     return (
       <React.Fragment>
-        <svg width="600" height="400"></svg>
+        <svg style={{ margin: 20 }} width="960" height="640"></svg>
       </React.Fragment>
     );
   }
