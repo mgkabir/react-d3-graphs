@@ -21,8 +21,16 @@ class ScatterPlot extends Component {
     const xScaleExtent = d3.extent(data, (d) => d.sepalLength);
     const yScaleExtent = d3.extent(data, (d) => d.petalLength);
 
-    const xScale = d3.scaleLinear().domain(xScaleExtent).range([0, innerWidth]);
-    const yScale = d3.scaleLinear().domain(yScaleExtent).range([height, 0]);
+    const xScale = d3
+      .scaleLinear()
+      .domain(xScaleExtent)
+      .range([0, innerWidth])
+      .nice();
+    const yScale = d3
+      .scaleLinear()
+      .domain(yScaleExtent)
+      .range([height, 0])
+      .nice();
 
     const g = svg
       .append("g")
@@ -69,7 +77,11 @@ class ScatterPlot extends Component {
   render() {
     return (
       <React.Fragment>
-        <svg style={{ margin: 20 }} width="960" height="640"></svg>
+        <svg
+          style={{ margin: 20, backgroundColor: "#f2f2ed" }}
+          width="960"
+          height="640"
+        ></svg>
       </React.Fragment>
     );
   }
