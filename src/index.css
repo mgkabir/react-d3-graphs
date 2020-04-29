@@ -17,7 +17,12 @@ rect {
 }
 
 circle {
-  fill: steelblue;
+  fill: paleturquoise;
+  stroke-width: 2px;
+}
+
+svg {
+  background-color: whitesmoke;
 }
 .svgText {
   font-size: 1.5em;

@@ -31,6 +31,7 @@ class ScatterPlot extends Component {
       .domain(yScaleExtent)
       .range([height, 0])
       .nice();
+    const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
     const g = svg
       .append("g")
@@ -43,7 +44,8 @@ class ScatterPlot extends Component {
       .append("circle")
       .attr("cx", (d) => xScale(d.sepalLength))
       .attr("cy", (d) => yScale(d.petalLength))
-      .attr("r", circleRadius);
+      .attr("r", circleRadius)
+      .attr("stroke", (d) => colorScale(d.species));
     // Update : no-op ?
     circles
       .attr("cx", (d) => xScale(d.sepalLength))
@@ -77,11 +79,7 @@ class ScatterPlot extends Component {
   render() {
     return (
       <React.Fragment>
-        <svg
-          style={{ margin: 20, backgroundColor: "#f2f2ed" }}
-          width="960"
-          height="640"
-        ></svg>
+        <svg width="960" height="640" style={{ margin: 20 }}></svg>
       </React.Fragment>
     );
   }
