@@ -19,7 +19,7 @@ class VictoryLineChart extends Component {
 
   render() {
     return (
-      <div class="w-75">
+      <div className="w-75">
         <VictoryChart theme={VictoryTheme.material} scale={{ x: "time" }}>
           <VictoryAxis />
           <VictoryAxis dependentAxis />

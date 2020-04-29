@@ -22,8 +22,9 @@ class ScatterPlot extends Component {
       .domain(yScaleExtent)
       .range([outerHeight, 0]);
 
+    const svg = d3.select("svg");
     // Data bind
-    const circles = d3.select("svg").selectAll("circle").data(data);
+    const circles = svg.selectAll("circle").data(data);
     // Enter
     circles
       .enter()
@@ -37,6 +38,19 @@ class ScatterPlot extends Component {
       .attr("cy", (d) => yScale(d.petalLength));
     // Exit
     circles.exit().remove();
+
+    this.includeXAxis(svg, xScale);
+    this.includeYAxis(svg, yScale);
+  }
+
+  includeXAxis(svg, xScale) {
+    const xAxis = d3.axisBottom().scale(xScale);
+    svg.append("g").attr("transform", "translate(30,370)").call(xAxis);
+  }
+
+  includeYAxis(svg, yScale) {
+    const yAxis = d3.axisLeft().scale(yScale);
+    svg.append("g").attr("transform", "translate(30, -30)").call(yAxis);
   }
 
   render() {
